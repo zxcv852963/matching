@@ -1,0 +1,21 @@
+import numpy as np
+import cv2 as cv
+from matplotlib import pyplot as plt
+img=cv.imread('E:/lly/tp/R-C.jpg')
+fast=cv.FastFeatureDetector_create(threshold=30)
+kp=fast.detect(img,None)
+img2=cv.drawKeypoints(img,kp,None,color=(0,0,255))
+print("Threshold:{}".format(fast.getThreshold()))
+print("nonmaxSuppression:{}".format(fast.getNonmaxSuppression()))
+print("neighborhood:{}".format(fast.getType()))
+print("Total keypoints with nonmaxSuppression{}".format(len(kp)))
+fast.setNonmaxSuppression(0)
+kp=fast.detect(img,None)
+print("Total Keypoints without nonmaxSuppression:{} ".format(len(kp)))
+img3=cv.drawKeypoints(img,kp,None,color=(0,0,255))
+fig,axes=plt.subplots(nrows=1,ncols=2,figsize=(10,8),dpi=100)
+axes[0].imshow(img2[:,:,::-1])
+axes[0].set_title("加入非极大值抑制")
+axes[1].imshow(img3[:,:,::-1])
+axes[1].set_title("未加入非极大值抑制")
+plt.show()
